@@ -81,61 +81,35 @@ This significantly reduces **numerical hallucination** in financial analysis.
 
 # System Architecture
 
-### 1. PDF Parsing
+```mermaid
+flowchart TD
 
-Financial report PDFs are parsed to extract raw text.
+A[Financial Report PDF] --> B[PDF Parsing]
 
----
+B --> C[Numerical Extraction<br>Regex]
 
-### 2. Numerical Extraction
+B --> D[Text Chunking]
 
-Important financial metrics are extracted using **regular expressions**, including:
+D --> E[Embeddings<br>SentenceTransformers]
 
-* Revenue
-* Pre-tax profit
-* Net income
-* Total assets
-* ROE
+E --> F[Vector Database<br>FAISS]
 
-This ensures that numerical values come **directly from the source document**.
+F --> G[RAG Retrieval]
 
----
+C --> H[Structured Financial Data]
 
-### 3. Vector Database Creation
+G --> I[Context Documents]
 
-The extracted text is split into chunks and converted into embeddings using **SentenceTransformers**.
+H --> J[Prompt Construction]
+I --> J
 
-These embeddings are stored in **FAISS**, enabling efficient similarity search.
+J --> K[LLM Analysis<br>Llama]
 
----
+K --> L[Financial Report Summary]
 
-### 4. RAG Retrieval
+L --> M[Evaluation]
 
-When generating financial analysis, the system retrieves the most relevant document sections using **vector similarity search**.
-
----
-
-### 5. LLM Analysis
-
-The LLM (Llama) generates financial analysis based on:
-
-* extracted numerical metrics
-* retrieved document context
-
-This reduces hallucination and improves factual consistency.
-
----
-
-### 6. Evaluation
-
-Generated summaries are evaluated using multiple metrics:
-
-* ROUGE
-* BLEU
-* BERTScore
-* Sentence-BERT similarity
-* Numerical accuracy metrics
-
+M --> N[ROUGE / BLEU / BERTScore<br>Numerical Accuracy]
 ---
 
 # Example Workflow
