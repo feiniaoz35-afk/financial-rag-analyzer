@@ -1,4 +1,5 @@
 # Financial RAG Analyzer
+AI system for financial report analysis using **RAG, numerical extraction, and a local LLM (Llama)**.
 
 AI system for **financial report analysis** using **Retrieval-Augmented Generation (RAG)**, **Llama**, and **rule-based numerical extraction**.
 
@@ -148,6 +149,91 @@ Toyota plans to promote manufacturing innovation through the **Future Factory pr
 
 ---
 
+## Example Queries
+
+The system can analyze financial reports by answering questions such as:
+
+• What are the financial highlights for FY2025?  
+• What factors affected Toyota's operating profit this year?  
+• What is the company's future outlook described in the financial report?  
+• Extract the key financial metrics from the report.  
+• Summarize the main business performance factors mentioned in the document.
+
+These queries are answered using a **RAG pipeline combined with numerical extraction**, ensuring that generated responses remain grounded in the original financial documents.
+
+---
+
+# Evaluation Results
+
+The generated financial summaries were evaluated using multiple automatic metrics to measure both **textual similarity** and **numerical consistency**.
+
+| Metric | Score |
+|------|------|
+| ROUGE-1 | 0.47 |
+| ROUGE-2 | 0.24 |
+| ROUGE-L | 0.39 |
+| BLEU | 0.00 |
+| BERTScore (F1) | 0.69 |
+| SBERT Similarity | 0.79 |
+
+These results indicate that the generated summaries preserve the **core semantic meaning** of the reference summaries while maintaining **high contextual similarity**.
+
+Note: BLEU scores are low because financial summaries often involve paraphrasing and restructuring of sentences. Therefore, semantic similarity metrics such as **BERTScore** and **Sentence-BERT similarity** provide a more reliable evaluation.
+
+---
+
+### Numerical Accuracy Evaluation
+
+Since financial report analysis requires **high numerical reliability**, additional numerical evaluation metrics were introduced.
+
+| Metric | Score |
+|------|------|
+| Numerical Exact Match | 1.00 |
+| Average Relative Error | 0.00 |
+
+This confirms that the generated summaries **accurately reproduce the numerical values from the original financial documents**, reducing the risk of numerical hallucinations.
+
+---
+
+### LLM-based Evaluation (LLM Judge)
+
+To further verify factual consistency, an additional evaluation step was performed using an LLM-based judge.  
+The judge compares the generated answer with the retrieved document context and evaluates numerical consistency and document grounding.
+
+Example evaluation result:
+
+
+DocNumbers: [48, 367, 64145, 47650]  
+AnswerNumbers: [48, 367, 64145, 47650]  
+HallucinatedNumbers: []  
+
+Score: 9 / 10  
+
+Reason: The answer correctly reflects the numerical facts and is supported by the retrieved document context.
+
+---
+
+## Research Focus
+
+This project explores how to improve the reliability of financial document analysis using small language models.
+
+The main research questions are:
+
+• Can a **small local LLM (SLM)** generate useful financial analysis without relying on large cloud models?  
+• Can **numerical extraction + RAG** reduce hallucinations in financial summaries?  
+• How can we evaluate both **textual quality and numerical accuracy** in financial document generation?
+
+To address these questions, the system combines:
+
+- rule-based **numerical extraction**
+- **RAG retrieval** for document grounding
+- **LLM-based analysis**
+- multiple **automatic evaluation metrics**
+
+including semantic similarity metrics and numerical consistency checks.
+
+---
+
 # Installation
 
 Install required dependencies:
@@ -213,6 +299,15 @@ In particular, it investigates how combining:
 - large language models
 
 can reduce **numerical hallucinations in financial document analysis**.
+
+---
+
+## Limitations
+
+• Numerical extraction currently relies on regular expressions and may fail on complex table structures.  
+• The system was tested on a limited number of financial reports.  
+• Retrieval quality depends on document chunking and embedding quality.  
+• LLM evaluation (LLM Judge) may introduce bias because it is itself a language model.
 
 ---
 
