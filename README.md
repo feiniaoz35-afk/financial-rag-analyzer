@@ -110,6 +110,7 @@ K --> L[Financial Report Summary]
 L --> M[Evaluation]
 
 M --> N[ROUGE / BLEU / BERTScore<br>Numerical Accuracy]
+```
 ---
 
 # Example Workflow
